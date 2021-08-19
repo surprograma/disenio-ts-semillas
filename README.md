@@ -1,57 +1,111 @@
-# Repositorio semilla: Biblioteca TypeScript :seedling:
+# Semillas al viento
 
-> Este es uno de los repositorios que utilizamos en la serie **Diseño orientado a objetos en Kotlin y TypeScript**, [disponible en YouTube](https://www.youtube.com/playlist?list=PL7q-McYJyHliqlpNGSVe-Y3EHDIma_H9U). Te recomendamos que mires la serie para entender un poco más sobre las tecnologías que elegimos. :smiley:
+![Portada](assets/portada.jpg)
 
-¡Bienvenida/o! En este repositorio encontrarás una plantilla (de las infinitas posibles) para crear una biblioteca o librería utilizando [Typescript](https://www.typescriptlang.org/). Las principales tecnologías que utilizamos son:
+> Este repositorio fue generado utilizando la [semilla Biblioteca Typescript](https://github.com/surprograma/semilla-typescript-lib). Recomendamos leer su README para conocer un poco más sobre las tecnologías elegidas y los requisitos para poder utilizarlo.
 
-- [NodeJS](https://nodejs.org/es/): entorno de ejecución para JavaScript.
-- [Ramda](http://ramdajs.com/): biblioteca para tener un manejo funcional de colecciones.
-- [Jest](https://jestjs.io/): framework para escribir tests.
+## Antes de empezar: algunos consejos
 
-Para crear un proyecto siguiendo esta plantilla, lo único que tenés que hacer es clickear en el botón que dice `Use this template`. ¡Y no te olvides de cambiarle el nombre en el `package.json`!
+En este ejercicio se pide que asuman el rol de quien debe _corregir_ o _revisar_ el código que escribió otra persona. Esto que puede parecer un juego de roles sin mucho sentido, es una actividad bastante habitual en el desarrollo de software y, por lo tanto, merece ser ejercitado.
 
-## :point_up: Prerrequisitos - para instalar antes de empezar
+La solución propuesta funciona, pero tiene algunos defectos hablando en términos de diseño de software. En particular, vamos a focalizarnos en algunos de los que están descriptos en el artículo [Cualidades de diseño independientes de la tecnología](https://surprograma.github.io/libro-disenio-oop/docs/cualidades-disenio/cualidades-independientes-tecnologia/) . 
 
-Vas a necesitar un IDE o al menos un editor de texto que coloree la sintaxis. Recomendamos utilizar [Visual Studio Code](https://code.visualstudio.com/) - que se lleva muy bien con proyectos JavaScript - enriquecido con los siguientes plugins:
+## :point_up: Consigna
 
-- [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-- [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer)
-- [Jest Test Explorer](https://marketplace.visualstudio.com/items?itemName=kavod-io.vscode-jest-test-adapter)
+Este ejercicio tiene tres etapas, que explicamos a continuación y que **deben realizarse en el orden especificado**. 
 
-Para ejecutar el código es necesario tener NodeJS en su versión 14 (`lts/fermium`). Para instalarlo recomendamos utilizar el manejador de versiones [`nvm`](https://github.com/nvm-sh/nvm), aunque también podés hacerlo manualmente siguiendo las instrucciones adecuadas para tu sistema operativo.
-
-## :ballot_box_with_check: Configuración inicial del proyecto
-
-Asumiendo que ya configuraste todos los prerrequisitos, solamente hay que instalar las dependencias la primera vez que trabajes en el proyecto:
-
-```shell
-npm install
+1. A partir del dominio y los requerimientos que se describen más abajo, **analizar la solución propuesta** y agregar en el código un **comentario por cada defecto** que encuentren. En este comentario, indicar qué cualidad está en juego y por qué creen que lo que señalaron es un defecto. Por ejemplo:
+```ts
+// REDUNDANCIA MÍNIMA
+// Esta información ya se encuentra en ..., no tiene sentido volver a ponerlo acá.
 ```
 
-## :file_folder: Estructura de directorios
+2. **Codificar los tests** para todos los requerimientos del enunciado, _sin modificar_ el código original. Si en algún caso un defecto impidiera que se pueda escribir un test, indicarlo con un comentario que explique por qué.
+3. Ahora sí, **corregir** todos los defectos de diseño que tenía la solución original y volver a ejecutar los tests (que deberían pasar). Si en algún caso fuera necesario modificar los tests, indicarlo con un comentario que explique por qué.
 
-Todo el código fuente debe ir dentro de la carpeta `src`, pudiendo crearse otras subcarpetas adentro de ella si fuera necesario. Los archivos de código deben tener extensión `.ts` y los de tests `.test.ts`.
+Para validar que respetaron el orden de las etapas, les pedimos que hagan (al menos) un commit distinto para cada etapa. Los comentarios de la etapa 1 podrían ser así:
 
-:warning: La rama principal de este repositorio es `main` y no `master`, como quizás estés acostumbrado/a. Podés leer el [comunicado oficial de la Software Freedom Conservancy](https://sfconservancy.org/news/2020/jun/23/gitbranchname/) para saber más al respecto.
+Como ayuda, deberían encontrar defectos relacionados a las siguientes cualidades:
+* Simplicidad 
+* Robustez
+* Acoplamiento - Cohesión
+* Redundancia mínima
+* Mutaciones controladas
 
-## :woman_technologist: :man_technologist: Comandos útiles para el día a día
+## :bookmark_tabs: Descripción del dominio
 
-A continuación, algunos comandos necesarios para el desarrollo diario en este proyecto.
+A raíz de la [polémica](https://www.elancasti.com.ar/opinion/2018/11/27/ley-cuestionada-389812.html) reciente sobre la posibilidad de que se modifique la [Ley de semillas y creaciones fitogenéticas, Nº 20.247](http://servicios.infoleg.gob.ar/infolegInternet/anexos/30000-34999/34822/texact.htm), una organización de pequeños productores nos pidió crear una aplicación para poder medir mejor el desempeño de sus huertas.
 
-### Código
+### Plantas
 
-```shell
-# Ejecuta el linter, buscando errores en el código
-npm run lint
+Comenzaremos modelando a cada una de las plantas que hay en la huerta, de las cuales podemos configurar los siguientes aspectos:
 
-# Ejecuta los tests una sola vez.
-npm test
+* el **año de obtención** de la semilla. Es decir, en qué año la semilla que le dio origen se sacó de su planta "madre";
+* la **altura** que tiene, medida en metros. Para este modelo, asumiremos que la altura **nunca** cambiará.
 
-# Ejecuta los tests y se queda esperando por cambios.
-npm test:watch
-```
+Se dice que una planta **es fuerte** si tolera más de 10 horas de sol al día, esto es igual para todas las plantas. El cálculo de las **horas de sol que tolera** depende exclusivamente de cada especie (ver más abajo).
 
-## :traffic_light: Integración continua
+Otro aspecto que nos interesa es saber si **da nuevas semillas**, para lo cual se tiene que cumplir que la planta sea fuerte _o bien_ una condición alternativa, que define cada especie.
 
-El proyecto incluye una configuración de [GitHub Actions](https://github.com/features/actions) que ejecuta tanto el linter como los tests cada vez que detecta un push o un pull request a la rama `main`.
+Contemplaremos las especies que se detallan a continuación.
+
+#### Menta
+Tolera seis horas de sol al día. Como condición alternativa para saber si da semillas, hay que mirar si su `altura` es mayor a 0.4 metros.
+
+#### Soja
+La tolerancia al sol depende de su altura:
+* menor a 0.5 metros: 6 horas;
+* entre 0.5 y 1 metro: 7 horas;
+* más de 1 metro: 9 horas;
+
+La condición alternativa para que de semillas es que su propia semilla sea de obtención reciente (posterior al 2007) y además su altura sea de más de 1 metro. 
+
+Por ejemplo, si tuviesemos una soja de 0.6 metros y de semilla de 2009, la planta tendría una tolerancia al sol de 7 horas y no daría semillas.
+
+### Variedades
+
+Agregar al modelo la soja transgénica, que es similar a la soja pero con dos diferencias:
+
+* nunca da nuevas semillas, porque las empresas que las comercializan las someten adrede a un proceso de esterilización (que les asegura no perder nunca a su clientes). 
+* tolera el doble de horas de sol que la soja común.
+
+### Parcelas
+
+De cada parcela se conoce:
+* su **ancho** y su **largo**, medidos en metros. (Para evacuar dudas: sí, van en dos atributos distintos.);
+* cuántas **horas de sol** recibe por día;
+* las **plantas** que tiene, representadas por una colección.
+
+A partir de estos datos, podemos averiguar su **superficie**, que se calcula... multiplicando `ancho` por `largo`.
+
+Cada parcela soporta una **cantidad máxima de plantas**, según la siguiente regla:
+- si el `ancho` es mayor que el `largo`, la cantidad máxima es `superficie / 5`; 
+- si no, es `superficie / 3 + largo`.
+
+Nos interesa saber también si la parcela **tiene complicaciones**, lo cual es así si alguna de sus plantas tolera menos sol del que recibe la parcela
+
+:information_source: _Veamos un ejemplo:_
+
+Una parcela de 20 metros de ancho por 1 metro de largo que recibe 8 horas de sol por día, tiene una superficie de 20 metros cuadrados y la cantidad máxima de plantas que tolera es 4.
+
+Si a esa parcela le plantamos 4 plantas de soja de más de 1 metro (que toleran 9 horas de sol), no tendría complicaciones. Si intentaramos agregar una quinta planta, se superaría la cantidad máxima y nos arrojaría un error.
+
+### Agricultoras
+
+Por último, agregaremos al modelo a las agricultoras, que son las dueñas de la tierra. Para este ejercicio, diremos que la tierra no puede ser ni vendida ni comprada, y por lo tanto cuando se crea una agricultora se configura con todas las parcelas que tiene. 
+
+## :white_check_mark: Requerimientos
+
+### Plantas
+1. Conocer cuántas **horas de sol tolera** una planta.
+1. Saber si una planta **es fuerte**.
+1. Saber si una planta **da semillas**.
+
+### Parcelas
+1. Saber la **cantidad máxima** de plantas que tolera.
+1. Saber si **tiene complicaciones**.
+1. Poder **plantar una planta** que se recibe por parámetro. El efecto que produce es que se agregue a la colección. Esto debe arrojar un error si al plantar se supera la cantidad máxima _o bien_ si la parcela recibe al menos 2 horas más de sol que los que la planta tolera.
+
+### Agricultoras
+1. Poder consultar la lista de **parcelas semilleras**. Decimos que una parcela es _semillera_ si todas sus plantas dan semillas.
+1. Poder **plantar estratégicamente** una planta (valga la redundancia). En este caso lo que haremos es buscar la parcela que más lugar tenga y agregar allí la planta, respetando las restricciones que ya mencionamos a la hora de plantar. 
